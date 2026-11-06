@@ -46,6 +46,10 @@
     .pick-btn:disabled { cursor:wait; opacity:.55; }
     .recent-item { background:#1c2927; border-color:#31534b; }
     .recent-item .thumb { width:42px; height:60px; flex-basis:42px; }
+    .other-cards-carousel { display:flex; gap:12px; overflow-x:auto; padding:4px 2px 12px; scroll-snap-type:x mandatory; scrollbar-color:#555b72 #202432; }
+    .other-card { flex:0 0 112px; min-width:0; scroll-snap-align:start; text-align:center; }
+    .other-card img { display:block; width:100%; aspect-ratio:421 / 614; object-fit:cover; border-radius:7px; background:#11141e; box-shadow:0 3px 10px #0005; }
+    .other-card-name { margin-top:8px; color:#e5e6ef; font-size:.82rem; line-height:1.35; overflow-wrap:anywhere; }
     .check { color:#9fe0b5; font-size:.82rem; margin-top:4px; }
     .empty { color:#9299ad; font-size:.9rem; padding:8px 0; }
     .status { min-height:22px; color:#b9bfd0; font-size:.9rem; margin-top:12px; overflow-wrap:anywhere; }
@@ -87,6 +91,14 @@
       </div>
       <p class="subtle">Cards are saved as soon as you select them. You can keep searching and submitting more.</p>
       <div class="recent-list" id="recent-list"><div class="empty">You haven't submitted any cards in this session yet.</div></div>
+    </section>
+
+    <section class="panel" aria-labelledby="other-players-title">
+      <h2 id="other-players-title">Submitted by other players</h2>
+      <p class="subtle">A random selection of cards already submitted to the poll.</p>
+      <div class="other-cards-carousel" id="other-cards-carousel" aria-label="Random cards submitted by other players">
+        <div class="empty">Loading submitted cards…</div>
+      </div>
     </section>
 
       </div>
@@ -143,6 +155,7 @@
     let activeSearchController = null;
     let searchSequence = 0;
     let lastResults = [];
+    let otherPlayersCardsRendered = false;
 
     function setStatus(message, kind = "") {
       submitStatus.textContent = message;
@@ -193,7 +206,52 @@
       submittedIds.clear();
       for (const row of allRows) submittedIds.add(Number(row.card_id));
       document.getElementById("database-count").textContent = submittedIds.size.toLocaleString();
+      if (!otherPlayersCardsRendered) renderOtherPlayersCards(allRows);
       renderResults(lastResults);
+    }
+
+    function renderOtherPlayersCards(rows) {
+      const carousel = document.getElementById("other-cards-carousel");
+      const uniqueCards = new Map();
+      for (const row of rows) {
+        const id = Number(row.card_id);
+        if (Number.isInteger(id) && id > 0 && row.card_name && !uniqueCards.has(id) && !submittedByMe.has(id)) {
+          uniqueCards.set(id, { id, name: row.card_name });
+        }
+      }
+
+      const cards = [...uniqueCards.values()];
+      for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
+      }
+
+      const selection = cards.slice(0, 10);
+      carousel.replaceChildren();
+      if (!selection.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No cards have been submitted by other players yet.";
+        carousel.append(empty);
+      } else {
+        for (const card of selection) {
+          const item = document.createElement("div");
+          item.className = "other-card";
+          const image = makeThumbnail(
+            "https://images.ygoprodeck.com/images/cards/" + card.id + ".jpg",
+            card.name
+          );
+          image.style.width = "100%";
+          image.style.height = "auto";
+          image.style.aspectRatio = "421 / 614";
+          const name = document.createElement("div");
+          name.className = "other-card-name";
+          name.textContent = card.name;
+          item.append(image, name);
+          carousel.append(item);
+        }
+      }
+      otherPlayersCardsRendered = true;
     }
 
     function makeThumbnail(url, name, className = "thumb") {
