@@ -11,7 +11,17 @@
     * { box-sizing:border-box; }
     body { margin:0; min-height:100vh; padding:32px 18px 56px; }
     button,input { font:inherit; }
-    .shell { width:min(100%,760px); margin:0 auto; }
+    .shell { width:min(100%,1100px); margin:0 auto; }
+    .content-layout { display:grid; grid-template-columns:minmax(0,1fr); gap:18px; align-items:start; }
+    .main-column { min-width:0; }
+    .faq-panel h2 { margin-bottom:18px; }
+    .faq-item + .faq-item { border-top:1px solid #343849; margin-top:17px; padding-top:17px; }
+    .faq-question { font-weight:750; margin:0 0 7px; line-height:1.4; }
+    .faq-answer { color:#c4c7d4; line-height:1.65; margin:0; }
+    @media(min-width:900px) {
+      .content-layout { grid-template-columns:minmax(0,1fr) minmax(280px,340px); }
+      .faq-panel { position:sticky; top:24px; }
+    }
     header { margin:18px 0 30px; }
     .eyebrow { color:#a9afd0; font-size:.75rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
     h1 { margin:10px 0 12px; font-size:clamp(2.1rem,7vw,3.3rem); line-height:1.02; letter-spacing:-.045em; }
@@ -54,6 +64,8 @@
       <p class="intro">Search for your favourite cards and tap one to submit it immediately. A small card preview helps you find the right one. Cards already submitted by anyone won't appear in the suggestions.</p>
     </header>
 
+    <div class="content-layout">
+      <div class="main-column">
     <section class="panel" aria-labelledby="search-title">
       <div class="stats">
         <h2 id="search-title">Find a card</h2>
@@ -75,6 +87,32 @@
       <p class="subtle">Cards are saved as soon as you select them. You can keep searching and submitting more.</p>
       <div class="recent-list" id="recent-list"><div class="empty">You haven't submitted any cards in this session yet.</div></div>
     </section>
+
+      </div>
+
+    <section class="panel faq-panel" aria-labelledby="faq-title">
+      <h2 id="faq-title">Frequently asked questions</h2>
+
+      <div class="faq-item">
+        <h3 class="faq-question">What is Uranus Project?</h3>
+        <p class="faq-answer">Uranus Project (working name) is a new way to play YGO. A way that's accessible and fun, that's beginner-friendly and interesting, that's new and nostalgic at the same time.</p>
+        <p class="faq-answer">Most importantly: Uranus Project is a free fan game. It is not affiliated with Konami in any way.</p>
+        <p class="faq-answer">Some huge inspirations for Uranus Project are Yu-Gi-Oh! Rush and Pokémon TCG Pocket.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-question">What is this poll?</h3>
+        <p class="faq-answer">This poll is a way to source from you, the players, cards that make you think of the game. They don't have to be old, they don't have to be new. Is your favorite card Marshmallon? Is it Mystic Mine (hello, Jeff Leonard)? Is it I:P Masquerena? Everything goes.</p>
+        <p class="faq-answer">You don't have to choose only one card, and they don't necessarily have to be your favorite cards. Mystical Space Typhoon is maybe no one's favorite card, but it sure makes you think of YGO, doesn't it?</p>
+      </div>
+
+      <div class="faq-item">
+        <h3 class="faq-question">Why can't I find a card?</h3>
+        <p class="faq-answer">If you are looking for a card but it's not on the list, good news: it means that's a card that makes someone else think of YGO as well! Every time a card is submitted, it is removed from the available options.</p>
+        <p class="faq-answer">We are not looking for a popularity contest: getting a thousand people to vote for Blue-Eyes White Dragon does not really help. We want you to go fringe.</p>
+      </div>
+    </section>
+    </div>
 
     <footer>
       Card names and previews are provided by <a href="https://ygoprodeck.com/" target="_blank" rel="noreferrer">YGOPRODeck</a>. This poll does not require an account.
