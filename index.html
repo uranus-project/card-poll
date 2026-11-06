@@ -117,12 +117,19 @@
           ...(options.headers || {})
         }
       });
+      // PostgREST returns an empty body for successful writes using
+      // Prefer: return=minimal (often HTTP 201, not just 204).
+      // Read the body once and only parse it when it contains JSON.
+      const body = await response.text();
       if (!response.ok) {
-        const detail = await response.text();
-        throw new Error("Database request failed (" + response.status + "): " + detail);
+        throw new Error("Database request failed (" + response.status + "): " + body);
       }
-      if (response.status === 204) return null;
-      return response.json();
+      if (!body.trim()) return null;
+      try {
+        return JSON.parse(body);
+      } catch {
+        throw new Error("The database returned an unexpected response.");
+      }
     }
 
     async function refreshSubmittedCards() {
