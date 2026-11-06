@@ -46,8 +46,16 @@
     .pick-btn:disabled { cursor:wait; opacity:.55; }
     .recent-item { background:#1c2927; border-color:#31534b; }
     .recent-item .thumb { width:42px; height:60px; flex-basis:42px; }
-    .other-cards-carousel { display:flex; gap:12px; overflow-x:auto; padding:4px 2px 12px; scroll-snap-type:x mandatory; scrollbar-color:#555b72 #202432; }
-    .other-card { flex:0 0 112px; min-width:0; scroll-snap-align:start; text-align:center; }
+    .other-cards-carousel { overflow:hidden; padding:4px 0 12px; }
+    .other-cards-track { display:flex; width:max-content; animation:other-cards-marquee 42s linear infinite; will-change:transform; }
+    .other-cards-group { display:flex; flex:0 0 auto; gap:12px; padding-right:12px; }
+    .other-card { flex:0 0 112px; min-width:0; text-align:center; }
+    @keyframes other-cards-marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+    @media(prefers-reduced-motion:reduce) {
+      .other-cards-track { animation:none; width:100%; }
+      .other-cards-group { flex-wrap:wrap; }
+      .other-cards-group[aria-hidden="true"] { display:none; }
+    }
     .other-card img { display:block; width:100%; aspect-ratio:421 / 614; object-fit:cover; border-radius:7px; background:#11141e; box-shadow:0 3px 10px #0005; }
     .other-card-name { margin-top:8px; color:#e5e6ef; font-size:.82rem; line-height:1.35; overflow-wrap:anywhere; }
     .check { color:#9fe0b5; font-size:.82rem; margin-top:4px; }
@@ -234,22 +242,36 @@
         empty.textContent = "No cards have been submitted by other players yet.";
         carousel.append(empty);
       } else {
-        for (const card of selection) {
-          const item = document.createElement("div");
-          item.className = "other-card";
-          const image = makeThumbnail(
-            "https://images.ygoprodeck.com/images/cards/" + card.id + ".jpg",
-            card.name
-          );
-          image.style.width = "100%";
-          image.style.height = "auto";
-          image.style.aspectRatio = "421 / 614";
-          const name = document.createElement("div");
-          name.className = "other-card-name";
-          name.textContent = card.name;
-          item.append(image, name);
-          carousel.append(item);
+        const track = document.createElement("div");
+        track.className = "other-cards-track";
+
+        function makeGroup(isDuplicate = false) {
+          const group = document.createElement("div");
+          group.className = "other-cards-group";
+          if (isDuplicate) group.setAttribute("aria-hidden", "true");
+
+          for (const card of selection) {
+            const item = document.createElement("div");
+            item.className = "other-card";
+            const image = makeThumbnail(
+              "https://images.ygoprodeck.com/images/cards/" + card.id + ".jpg",
+              card.name
+            );
+            image.style.width = "100%";
+            image.style.height = "auto";
+            image.style.aspectRatio = "421 / 614";
+            if (isDuplicate) image.alt = "";
+            const name = document.createElement("div");
+            name.className = "other-card-name";
+            name.textContent = card.name;
+            item.append(image, name);
+            group.append(item);
+          }
+          return group;
         }
+
+        track.append(makeGroup(), makeGroup(true));
+        carousel.append(track);
       }
       otherPlayersCardsRendered = true;
     }
