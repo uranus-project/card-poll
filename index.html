@@ -26,6 +26,8 @@
     .eyebrow { color:#a9afd0; font-size:.75rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
     h1 { margin:10px 0 12px; font-size:clamp(2.1rem,7vw,3.3rem); line-height:1.02; letter-spacing:-.045em; }
     .intro { max-width:590px; color:#c4c7d4; line-height:1.65; margin:0; }
+    .database-counter { display:flex; align-items:baseline; gap:8px; margin-top:18px; color:#aeb3c4; font-size:.9rem; }
+    .database-counter strong { color:#c7c8ff; font-size:1.35rem; font-variant-numeric:tabular-nums; }
     .panel { background:#1a1d29; border:1px solid #343849; border-radius:18px; padding:clamp(18px,4vw,26px); margin:18px 0; box-shadow:0 16px 48px #0002; }
     h2 { font-size:1.15rem; margin:0 0 14px; }
     .subtle { color:#aeb3c4; font-size:.9rem; line-height:1.5; }
@@ -61,6 +63,7 @@
       <div class="eyebrow">The Uranus Project team presents</div>
       <h1>Uranus Project</h1>
       <p class="intro">A new way to play Yu-Gi-Oh!: accessible and beginner-friendly, yet interesting for experienced players. A fresh take on the game that feels both new and nostalgic.</p>
+      <div class="database-counter" aria-live="polite"><strong id="database-count">—</strong><span>cards submitted so far</span></div>
     </header>
 
     <div class="content-layout">
@@ -172,10 +175,25 @@
     }
 
     async function refreshSubmittedCards() {
-      const rows = await supabaseRequest(TABLE_URL + "?select=card_id,card_name");
+      const allRows = [];
+      const pageSize = 1000;
+      let offset = 0;
+
+      // Fetch every page so the counter and available-card list stay accurate
+      // even if the database eventually grows beyond the API's row limit.
+      while (true) {
+        const rows = await supabaseRequest(
+          TABLE_URL + "?select=card_id,card_name&order=id.asc",
+          { headers: { Range: offset + "-" + (offset + pageSize - 1), "Range-Unit": "items" } }
+        );
+        allRows.push(...rows);
+        if (rows.length < pageSize) break;
+        offset += pageSize;
+      }
+
       submittedIds.clear();
-      for (const row of rows) submittedIds.add(Number(row.card_id));
-      
+      for (const row of allRows) submittedIds.add(Number(row.card_id));
+      document.getElementById("database-count").textContent = submittedIds.size.toLocaleString();
       renderResults(lastResults);
     }
 
@@ -269,6 +287,7 @@
           body: JSON.stringify({ card_id: id, card_name: card.name })
         });
         submittedIds.add(id);
+        document.getElementById("database-count").textContent = submittedIds.size.toLocaleString();
         submittedByMe.set(id, {
           id,
           name: card.name,
