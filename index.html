@@ -7,57 +7,43 @@
   <meta name="description" content="A community Yu-Gi-Oh! card poll.">
   <title>Yu-Gi-Oh! Card Poll</title>
   <style>
-    :root {
-      color-scheme: dark;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #11131b;
-      color: #f4f4f7;
-      font-synthesis: none;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; padding: 32px 18px 56px; }
-    button, input { font: inherit; }
-    .shell { width: min(100%, 760px); margin: 0 auto; }
-    header { margin: 18px 0 30px; }
-    .eyebrow { color: #a9afd0; font-size: .75rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
-    h1 { margin: 10px 0 12px; font-size: clamp(2.1rem, 7vw, 3.3rem); line-height: 1.02; letter-spacing: -.045em; }
-    .intro { max-width: 590px; color: #c4c7d4; line-height: 1.65; margin: 0; }
-    .panel { background: #1a1d29; border: 1px solid #343849; border-radius: 18px; padding: clamp(18px, 4vw, 26px); margin: 18px 0; box-shadow: 0 16px 48px #0002; }
-    h2 { font-size: 1.15rem; margin: 0 0 14px; }
-    .subtle { color: #aeb3c4; font-size: .9rem; line-height: 1.5; }
-    .search-wrap { position: relative; }
-    input[type="search"] { width: 100%; min-height: 50px; padding: 12px 15px; border: 1px solid #4a5065; border-radius: 11px; outline: none; color: #fff; background: #11141e; }
-    input[type="search"]:focus { border-color: #a5a9ff; box-shadow: 0 0 0 3px #888cff24; }
-    .hint { margin: 10px 2px 0; min-height: 22px; color: #aeb3c4; font-size: .87rem; }
-    .results { display: grid; gap: 8px; margin-top: 14px; }
-    .result { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 13px; border: 1px solid #34394b; border-radius: 11px; background: #202432; }
-    .card-name { font-weight: 650; line-height: 1.35; }
-    .card-type { color: #aeb3c4; font-size: .8rem; margin-top: 4px; }
-    .add-btn, .submit-btn, .remove-btn { border: 0; border-radius: 9px; cursor: pointer; font-weight: 700; }
-    .add-btn { flex: 0 0 auto; padding: 9px 13px; color: #171827; background: #c7c8ff; }
-    .add-btn:hover { background: #dedfff; }
-    .add-btn:disabled { cursor: default; opacity: .45; }
-    .pending-list { display: grid; gap: 8px; }
-    .pending-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: #222637; border: 1px solid #3a4055; border-radius: 10px; }
-    .remove-btn { padding: 7px 10px; color: #e4e5f2; background: #383e51; }
-    .remove-btn:hover { background: #4a5168; }
-    .empty { color: #9299ad; font-size: .9rem; padding: 8px 0; }
-    .submit-row { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 18px; }
-    .submit-btn { padding: 12px 18px; color: #151625; background: #c7c8ff; }
-    .submit-btn:hover { background: #dedfff; }
-    .submit-btn:disabled { cursor: not-allowed; opacity: .45; }
-    .status { min-height: 22px; color: #b9bfd0; font-size: .9rem; }
-    .status.error { color: #ffaaa9; }
-    .status.success { color: #9fe0b5; }
-    .stats { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .count { color: #d9dbeb; background: #292e40; border: 1px solid #414860; border-radius: 999px; padding: 6px 11px; font-size: .83rem; white-space: nowrap; }
-    footer { margin: 28px 4px 0; color: #858ca1; font-size: .78rem; line-height: 1.6; }
-    a { color: #bfc2ff; }
-    @media (max-width: 480px) {
-      body { padding: 18px 12px 40px; }
-      .result { align-items: flex-start; }
-      .add-btn { padding: 9px 11px; }
-    }
+    :root { color-scheme:dark; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; background:#11131b; color:#f4f4f7; font-synthesis:none; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; padding:32px 18px 56px; }
+    button,input { font:inherit; }
+    .shell { width:min(100%,760px); margin:0 auto; }
+    header { margin:18px 0 30px; }
+    .eyebrow { color:#a9afd0; font-size:.75rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { margin:10px 0 12px; font-size:clamp(2.1rem,7vw,3.3rem); line-height:1.02; letter-spacing:-.045em; }
+    .intro { max-width:590px; color:#c4c7d4; line-height:1.65; margin:0; }
+    .panel { background:#1a1d29; border:1px solid #343849; border-radius:18px; padding:clamp(18px,4vw,26px); margin:18px 0; box-shadow:0 16px 48px #0002; }
+    h2 { font-size:1.15rem; margin:0 0 14px; }
+    .subtle { color:#aeb3c4; font-size:.9rem; line-height:1.5; }
+    .search-wrap { position:relative; }
+    input[type=search] { width:100%; min-height:50px; padding:12px 15px; border:1px solid #4a5065; border-radius:11px; outline:none; color:#fff; background:#11141e; }
+    input[type=search]:focus { border-color:#a5a9ff; box-shadow:0 0 0 3px #888cff24; }
+    .hint { margin:10px 2px 0; min-height:22px; color:#aeb3c4; font-size:.87rem; }
+    .results,.recent-list { display:grid; gap:10px; margin-top:14px; }
+    .result,.recent-item { display:flex; align-items:center; gap:13px; padding:10px; border:1px solid #34394b; border-radius:12px; background:#202432; }
+    .thumb { width:53px; height:76px; flex:0 0 53px; object-fit:cover; border-radius:5px; background:#11141e; box-shadow:0 2px 8px #0005; }
+    .card-info { min-width:0; flex:1; }
+    .card-name { font-weight:700; line-height:1.35; }
+    .card-type { color:#aeb3c4; font-size:.8rem; margin-top:4px; }
+    .pick-btn { flex:0 0 auto; padding:9px 13px; border:0; border-radius:9px; cursor:pointer; font-weight:750; color:#171827; background:#c7c8ff; }
+    .pick-btn:hover { background:#dedfff; }
+    .pick-btn:disabled { cursor:wait; opacity:.55; }
+    .recent-item { background:#1c2927; border-color:#31534b; }
+    .recent-item .thumb { width:42px; height:60px; flex-basis:42px; }
+    .check { color:#9fe0b5; font-size:.82rem; margin-top:4px; }
+    .empty { color:#9299ad; font-size:.9rem; padding:8px 0; }
+    .status { min-height:22px; color:#b9bfd0; font-size:.9rem; margin-top:12px; overflow-wrap:anywhere; }
+    .status.error { color:#ffaaa9; }
+    .status.success { color:#9fe0b5; }
+    .stats { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    .count { color:#d9dbeb; background:#292e40; border:1px solid #414860; border-radius:999px; padding:6px 11px; font-size:.83rem; white-space:nowrap; }
+    footer { margin:28px 4px 0; color:#858ca1; font-size:.78rem; line-height:1.6; }
+    a { color:#bfc2ff; }
+    @media(max-width:480px) { body { padding:18px 12px 40px; } .result { gap:9px; padding:8px; } .thumb { width:47px; height:68px; flex-basis:47px; } .pick-btn { padding:9px 10px; } }
   </style>
 </head>
 <body>
@@ -65,12 +51,12 @@
     <header>
       <div class="eyebrow">Uranus Project presents</div>
       <h1>Yu-Gi-Oh!<br>Card Poll</h1>
-      <p class="intro">Search for your favourite cards and add them to the poll. You can submit several cards at once. Cards already submitted by someone else won't appear in the search suggestions.</p>
+      <p class="intro">Search for your favourite cards and tap one to submit it immediately. A small card preview helps you find the right one. Cards already submitted by anyone won't appear in the suggestions.</p>
     </header>
 
     <section class="panel" aria-labelledby="search-title">
       <div class="stats">
-        <h2 id="search-title">1. Find your cards</h2>
+        <h2 id="search-title">Find a card</h2>
         <span class="count" id="submitted-count">Loading submitted cards…</span>
       </div>
       <div class="search-wrap">
@@ -78,26 +64,25 @@
       </div>
       <p class="hint" id="search-hint" aria-live="polite">Enter at least 2 characters to search the card database.</p>
       <div class="results" id="search-results" aria-live="polite"></div>
+      <p class="status" id="submit-status" role="status" aria-live="polite"></p>
     </section>
 
-    <section class="panel" aria-labelledby="selection-title">
-      <h2 id="selection-title">2. Your selection</h2>
-      <p class="subtle">You can add more than one card before submitting.</p>
-      <div class="pending-list" id="pending-list"><div class="empty">You haven't selected any cards yet.</div></div>
-      <div class="submit-row">
-        <button class="submit-btn" id="submit-btn" type="button" disabled>Submit selected cards</button>
-        <span class="status" id="submit-status" role="status" aria-live="polite"></span>
+    <section class="panel" aria-labelledby="recent-title">
+      <div class="stats">
+        <h2 id="recent-title">Submitted by you</h2>
+        <span class="subtle">This session only</span>
       </div>
+      <p class="subtle">Cards are saved as soon as you select them. You can keep searching and submitting more.</p>
+      <div class="recent-list" id="recent-list"><div class="empty">You haven't submitted any cards in this session yet.</div></div>
     </section>
 
     <footer>
-      Card names and search results are provided by <a href="https://ygoprodeck.com/" target="_blank" rel="noreferrer">YGOPRODeck</a>. This poll does not require an account.
+      Card names and previews are provided by <a href="https://ygoprodeck.com/" target="_blank" rel="noreferrer">YGOPRODeck</a>. This poll does not require an account.
     </footer>
   </main>
 
   <script>
-    // Supabase project connection. The publishable key is intended for browser use;
-    // database security is enforced by the table's Row Level Security policies.
+    // The publishable key is intended for browser use. Row Level Security protects the table.
     const SUPABASE_URL = "https://bxdmhhwtpjhqyzrjjpvp.supabase.co";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_GU37WPEln1tsK9s4X9ldMQ_RWtkT178";
     const TABLE_URL = SUPABASE_URL + "/rest/v1/card_submissions";
@@ -106,17 +91,17 @@
     const searchInput = document.getElementById("card-search");
     const searchHint = document.getElementById("search-hint");
     const searchResults = document.getElementById("search-results");
-    const pendingList = document.getElementById("pending-list");
-    const submitButton = document.getElementById("submit-btn");
+    const recentList = document.getElementById("recent-list");
     const submitStatus = document.getElementById("submit-status");
     const submittedCount = document.getElementById("submitted-count");
 
     const submittedIds = new Set();
-    const pendingCards = new Map();
+    const submittedByMe = new Map();
+    const submittingIds = new Set();
     let searchTimer = null;
     let activeSearchController = null;
     let searchSequence = 0;
-    let isSubmitting = false;
+    let lastResults = [];
 
     function setStatus(message, kind = "") {
       submitStatus.textContent = message;
@@ -144,25 +129,37 @@
       const rows = await supabaseRequest(TABLE_URL + "?select=card_id,card_name");
       submittedIds.clear();
       for (const row of rows) submittedIds.add(Number(row.card_id));
-      submittedCount.textContent = submittedIds.size + " card" + (submittedIds.size === 1 ? "" : "s") + " already submitted";
+      submittedCount.textContent = submittedIds.size + " card" + (submittedIds.size === 1 ? "" : "s") + " submitted";
       renderResults(lastResults);
     }
 
-    let lastResults = [];
+    function makeThumbnail(url, name, className = "thumb") {
+      const img = document.createElement("img");
+      img.className = className;
+      img.src = url || "";
+      img.alt = name + " card preview";
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      img.addEventListener("error", () => { img.style.visibility = "hidden"; });
+      return img;
+    }
 
     function renderResults(cards) {
       lastResults = cards;
       searchResults.replaceChildren();
-      const available = cards.filter(card => !submittedIds.has(Number(card.id)) && !pendingCards.has(Number(card.id)));
+      const available = cards.filter(card => !submittedIds.has(Number(card.id)) && !submittingIds.has(Number(card.id)));
       if (!available.length && cards.length) {
-        searchHint.textContent = "All matching cards have already been submitted or are in your selection.";
+        searchHint.textContent = "All matching cards have already been submitted.";
         return;
       }
       for (const card of available) {
         const row = document.createElement("div");
         row.className = "result";
+        const imageUrl = card.card_images?.[0]?.image_url_small || card.card_images?.[0]?.image_url || "";
+        row.append(makeThumbnail(imageUrl, card.name));
 
         const info = document.createElement("div");
+        info.className = "card-info";
         const name = document.createElement("div");
         name.className = "card-name";
         name.textContent = card.name;
@@ -171,54 +168,77 @@
         type.textContent = card.type || "Yu-Gi-Oh! card";
         info.append(name, type);
 
-        const add = document.createElement("button");
-        add.className = "add-btn";
-        add.type = "button";
-        add.textContent = "Add";
-        add.addEventListener("click", () => {
-          pendingCards.set(Number(card.id), { id: Number(card.id), name: card.name, type: card.type || "" });
-          renderPending();
-          renderResults(lastResults);
-          setStatus("");
-        });
-
-        row.append(info, add);
+        const pick = document.createElement("button");
+        pick.className = "pick-btn";
+        pick.type = "button";
+        pick.textContent = "Submit";
+        pick.addEventListener("click", () => submitCard(card, pick));
+        row.append(info, pick);
         searchResults.append(row);
       }
-      if (cards.length && available.length) {
-        searchHint.textContent = available.length + " matching card" + (available.length === 1 ? "" : "s") + " available. Select the cards you want to submit.";
+      if (available.length) {
+        searchHint.textContent = available.length + " matching card" + (available.length === 1 ? "" : "s") + ". Select one to submit it immediately.";
       }
     }
 
-    function renderPending() {
-      pendingList.replaceChildren();
-      if (!pendingCards.size) {
+    function renderRecent() {
+      recentList.replaceChildren();
+      if (!submittedByMe.size) {
         const empty = document.createElement("div");
         empty.className = "empty";
-        empty.textContent = "You haven't selected any cards yet.";
-        pendingList.append(empty);
-      } else {
-        for (const card of pendingCards.values()) {
-          const row = document.createElement("div");
-          row.className = "pending-item";
-          const name = document.createElement("span");
-          name.textContent = card.name;
-          const remove = document.createElement("button");
-          remove.type = "button";
-          remove.className = "remove-btn";
-          remove.textContent = "Remove";
-          remove.setAttribute("aria-label", "Remove " + card.name);
-          remove.addEventListener("click", () => {
-            pendingCards.delete(card.id);
-            renderPending();
-            renderResults(lastResults);
-          });
-          row.append(name, remove);
-          pendingList.append(row);
-        }
+        empty.textContent = "You haven't submitted any cards in this session yet.";
+        recentList.append(empty);
+        return;
       }
-      submitButton.disabled = pendingCards.size === 0 || isSubmitting;
-      submitButton.textContent = isSubmitting ? "Submitting…" : "Submit " + (pendingCards.size ? pendingCards.size + " selected card" + (pendingCards.size === 1 ? "" : "s") : "selected cards");
+      for (const card of submittedByMe.values()) {
+        const row = document.createElement("div");
+        row.className = "recent-item";
+        row.append(makeThumbnail(card.image, card.name));
+        const info = document.createElement("div");
+        info.className = "card-info";
+        const name = document.createElement("div");
+        name.className = "card-name";
+        name.textContent = card.name;
+        const confirmation = document.createElement("div");
+        confirmation.className = "check";
+        confirmation.textContent = "✓ Submitted";
+        info.append(name, confirmation);
+        row.append(info);
+        recentList.append(row);
+      }
+    }
+
+    async function submitCard(card, button) {
+      const id = Number(card.id);
+      if (submittedIds.has(id) || submittingIds.has(id)) return;
+      submittingIds.add(id);
+      button.disabled = true;
+      button.textContent = "Sending…";
+      renderResults(lastResults);
+      setStatus("Submitting " + card.name + "…");
+      try {
+        await supabaseRequest(TABLE_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify({ card_id: id, card_name: card.name })
+        });
+        submittedIds.add(id);
+        submittedByMe.set(id, {
+          id,
+          name: card.name,
+          image: card.card_images?.[0]?.image_url_small || card.card_images?.[0]?.image_url || ""
+        });
+        renderRecent();
+        setStatus(card.name + " was submitted successfully!", "success");
+        renderResults(lastResults);
+        submittedCount.textContent = submittedIds.size + " card" + (submittedIds.size === 1 ? "" : "s") + " submitted";
+      } catch (error) {
+        console.error(error);
+        setStatus("Couldn't submit " + card.name + ". Please try again. " + error.message, "error");
+        renderResults(lastResults);
+      } finally {
+        submittingIds.delete(id);
+      }
     }
 
     async function searchCards(query) {
@@ -260,40 +280,6 @@
       searchTimer = setTimeout(() => searchCards(query), 350);
     });
 
-    submitButton.addEventListener("click", async () => {
-      if (!pendingCards.size || isSubmitting) return;
-      isSubmitting = true;
-      renderPending();
-      setStatus("Sending your cards…");
-      const rows = Array.from(pendingCards.values()).map(card => ({
-        card_id: card.id,
-        card_name: card.name
-      }));
-      try {
-        await supabaseRequest(TABLE_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Prefer: "return=minimal"
-          },
-          body: JSON.stringify(rows)
-        });
-        pendingCards.clear();
-        renderPending();
-        setStatus("Your cards have been submitted. Thank you!", "success");
-        await refreshSubmittedCards();
-        if (searchInput.value.trim().length >= 2) {
-          await searchCards(searchInput.value.trim());
-        }
-      } catch (error) {
-        console.error(error);
-        setStatus("Submission failed. Please try again. " + error.message, "error");
-      } finally {
-        isSubmitting = false;
-        renderPending();
-      }
-    });
-
     async function initialise() {
       try {
         await refreshSubmittedCards();
@@ -305,12 +291,12 @@
     }
 
     initialise();
-    // Keep the "already submitted" list reasonably fresh while the poll is open.
+    // Refresh the shared submitted-card list while the page is open.
     setInterval(() => {
       if (document.visibilityState === "visible") {
         refreshSubmittedCards().catch(error => console.warn("Could not refresh submissions:", error));
       }
-    }, 30000);
+    }, 15000);
   </script>
 </body>
 </html>
